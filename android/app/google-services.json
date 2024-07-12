@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "723565053960",
+    "project_id": "sohoj-pora",
+    "storage_bucket": "sohoj-pora.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723565053960:android:817a43a3dd41f8be60e9bd",
+        "android_client_info": {
+          "package_name": "com.sohojpora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723565053960-fplrcgagh737md9jbf4t50e3ohg63507.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sohojpora",
+            "certificate_hash": "5f20585aaf5d15b6e39775ec99c3c15bd1cd780c"
+          }
+        },
+        {
+          "client_id": "723565053960-okts5vnfbl3dtrgcbmaf7c8fi6ug21kt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sohojpora",
+            "certificate_hash": "c32affc5878ec4b0b7c32fd497e1b6b61a200d93"
+          }
+        },
+        {
+          "client_id": "723565053960-op8npbo7e2plv9b64n1fcabpk6td6jtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sohojpora",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "723565053960-od53ug0qkd44176je7067hhijuqoie8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwp8ZRP9qqO-lM1K3PNiRaQ-r8ij13Iac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723565053960-od53ug0qkd44176je7067hhijuqoie8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
