@@ -66,4 +66,4 @@ yarn-error.log
 /coverage
 
 #ignore bundle file
-android/app/release/app-release.aab
+app/release/app-release.aab
