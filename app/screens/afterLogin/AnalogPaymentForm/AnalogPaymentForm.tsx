@@ -34,7 +34,6 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {useIcon} from '../../../assets/icons/useIcon';
 import CustomAlert from '../../../components/alerts/CustomAlert';
 import {PaymentAlertIllus} from '../../../assets/images';
-import LottieView from 'lottie-react-native';
 
 const AnalogPaymentForm = ({route, navigation}) => {
   const {category_data} = route.params;

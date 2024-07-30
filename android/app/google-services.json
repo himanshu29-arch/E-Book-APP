@@ -38,6 +38,14 @@
           }
         },
         {
+          "client_id": "723565053960-qgsg8etgckkfriiunklkjg261erbdtn0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sohojpora",
+            "certificate_hash": "26dfca82892a2344cf146aae8dadcd98b08ccb51"
+          }
+        },
+        {
           "client_id": "723565053960-od53ug0qkd44176je7067hhijuqoie8v.apps.googleusercontent.com",
           "client_type": 3
         }
