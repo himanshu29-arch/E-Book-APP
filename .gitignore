@@ -67,3 +67,4 @@ yarn-error.log
 
 #ignore bundle file
 app/release/app-release.aab
+app/release/app-release.apk
