@@ -161,7 +161,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
       const response = await axios.post(
-        `http://43.204.161.117/api/videos/${bookVideosRes?.id}/like`,
+        `${BASE_URL}videos/${bookVideosRes?.id}/like`,
         {},
         {
           headers: {
@@ -270,8 +270,8 @@ const BookVideos: React.FC = ({navigation, route}) => {
       console.log('🚀 ~ handleSendComment ~ token:', token);
       setIsLoading(true);
       const response = await axios.post(
-        // `http://43.204.161.117/api/videos/${bookVideosRes?.id}/comments`,
-        `http://43.204.161.117/api/videos/${bookVideosRes?.id}/comments`,
+        // `${BASE_URL}videos/${bookVideosRes?.id}/comments`,
+        `${BASE_URL}videos/${bookVideosRes?.id}/comments`,
         formData,
         {
           headers: {
@@ -334,7 +334,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
       const response = await axios.post(
-        `http://43.204.161.117/api/comments/${commentIdTobeEdit}`,
+        `${BASE_URL}comments/${commentIdTobeEdit}`,
         formData,
 
         {
@@ -377,7 +377,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
       const response = await axios.post(
-        `http://43.204.161.117/api/comments/${commentId}/replies`,
+        `${BASE_URL}comments/${commentId}/replies`,
         formData,
         {
           headers: {
@@ -415,7 +415,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
       const response = await axios.post(
-        `http://43.204.161.117/api/replies/${replyIdTobeEdit}`,
+        `${BASE_URL}replies/${replyIdTobeEdit}`,
         formData,
         {
           headers: {
@@ -456,7 +456,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
       setIsLoading(true);
       const token = await AsyncStorage.getItem('token');
       const response = await axios.get(
-        `http://43.204.161.117/api/videos/${id}/comments-replies`,
+        `${BASE_URL}videos/${id}/comments-replies`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -485,14 +485,11 @@ const BookVideos: React.FC = ({navigation, route}) => {
     try {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
-      const response = await axios.delete(
-        `http://43.204.161.117/api/comments/${commentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.delete(`${BASE_URL}comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       console.log(response.status, 'response.status');
       if (response.status === 200) {
         handleGetCommentsData(bookVideosRes.id);
@@ -521,15 +518,12 @@ const BookVideos: React.FC = ({navigation, route}) => {
     try {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
-      const response = await axios.delete(
-        `http://43.204.161.117/api/replies/${commentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
+      const response = await axios.delete(`${BASE_URL}replies/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
-      );
+      });
       console.log(response.status, 'response.status');
       if (response.status === 200) {
         handleGetCommentsData(bookVideosRes.id);

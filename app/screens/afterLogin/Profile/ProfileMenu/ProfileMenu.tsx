@@ -36,6 +36,8 @@ import {useIcon} from '../../../../assets/icons/useIcon';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../../../redux/authSlice';
+import axios from 'axios';
+import {BASE_URL} from '../../../../constants/storageKeys';
 
 const ProfileMenu = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -138,6 +140,21 @@ const ProfileMenu = ({navigation}) => {
       ],
     );
   }
+  async function handleAccountDelete(params: type) {
+    Alert.alert(
+      'Just Checking!',
+      `Hey there! It looks like you're trying to delete account. Are you sure you want to proceed?`,
+      [
+        {
+          text: 'Yes, Delete account',
+          onPress: OnDeleteAccountAlertOk,
+        },
+        {
+          text: 'Cancel',
+        },
+      ],
+    );
+  }
   const dispatch = useDispatch();
   let type = '';
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Replace with your actual state
@@ -168,11 +185,43 @@ const ProfileMenu = ({navigation}) => {
       // navigation.navigate('Login');
     }
   }
-  console.log('🚀 ~ OnSignOutAlertOK ~ type:', type);
-  console.log(userProfile?.profile_image, 'image');
+  async function OnDeleteAccountAlertOk() {
+    console.log('🚀 ~ getPaymentNumber ~ getPaymentNumber:');
+    try {
+      const token = await AsyncStorage.getItem('token');
+      setIsLoading(true);
+      const response = await axios.delete(
+        `${BASE_URL}${endpoints.DELETE_ACCOUNT}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        setIsLoading(false);
+        dispatch(logout());
+        await AsyncStorage.clear();
+      }
+    } catch (error) {
+      console.log(
+        '🚀 ~ OnDeleteAccountAlertOk ~ error:',
+        error?.response?.data?.message,
+      );
+      Snackbar.show({
+        text: error?.response?.data?.message,
+        duration: 2000,
+        backgroundColor: color.RED,
+      });
+      // }
+    }
+  }
+
   function handleSettings() {
     navigation.navigate('Settings');
   }
+
   return (
     <View
       style={{
@@ -488,6 +537,15 @@ const ProfileMenu = ({navigation}) => {
           }}
         />
       </View>
+      <TouchableOpacity
+        onPress={handleAccountDelete}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: hp(2),
+        }}>
+        <Text style={{color: 'red'}}>Request Account Delete</Text>
+      </TouchableOpacity>
     </View>
   );
 };

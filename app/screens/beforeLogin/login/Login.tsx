@@ -42,6 +42,7 @@ import DrawerIcons from '../../../assets/DrawerAssets';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {login} from '../../../redux/authSlice';
+import {BASE_URL} from '../../../constants/storageKeys';
 
 const Login = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +89,7 @@ const Login = ({navigation}) => {
       console.log('🚀 ~ userSignupWithGoogle ~ email:', email);
       console.log('🚀 ~ userSignupWithGoogle ~ userId:', userId);
       const response = await axios.post(
-        'http://43.204.161.117/api/auth/google/callback',
+        `${BASE_URL}${endpoints?.GOOGLE_SIGNIN}`,
         {
           google_id: userId,
           email: email,
@@ -113,7 +114,7 @@ const Login = ({navigation}) => {
         );
       }
     } catch (error) {
-      console.log('inside catch', error.message);
+      console.log('inside catch', error.message?.data?.message);
       // if (error.message == 'Request failed with status code 500') {
       Alert.alert('Information', `${error?.response?.data?.message}`);
       // Snackbar.show({
@@ -259,49 +260,43 @@ const Login = ({navigation}) => {
       });
       console.log(response.status, 'response.status');
       if (response.status === 200) {
-        setRes(response.data);
-        await AsyncStorage.setItem('loginType', 'mannual');
-        await AsyncStorage.setItem('token', response?.data?.token);
-        await AsyncStorage.setItem(
-          'user_id',
-          response?.data?.data?.id.toString(),
-        );
-        if (response.data.data.otp == null) {
-          Alert.alert('Information', `${response.data.message}`, [
-            {
-              text: 'Ok',
-              // onPress: () => onAlertOK(response?.data?.data),
-              onPress: () =>
-                dispatch(
-                  login({
-                    userName: response?.data?.name,
-                    userEmail: response?.data?.email,
-                  }),
-                ),
-              style: 'default',
-            },
-          ]);
-        } else {
-          Alert.alert('Info', `Use ${response.data.data.otp} as your OTP`, [
-            {
-              text: 'OK',
-              onPress: () => onOtpOkPress(response),
-            },
-          ]);
+        if (response.status === 200) {
+          setRes(response.data);
+          await AsyncStorage.setItem('loginType', 'mannual');
+          await AsyncStorage.setItem('token', response?.data?.token);
+          await AsyncStorage.setItem(
+            'user_id',
+            response?.data?.data?.id.toString(),
+          );
+          if (response.data.data.otp == null) {
+            Alert.alert('Information', `${response.data.message}`, [
+              {
+                text: 'Ok',
+                // onPress: () => onAlertOK(response?.data?.data),
+                onPress: () =>
+                  dispatch(
+                    login({
+                      userName: response?.data?.name,
+                      userEmail: response?.data?.email,
+                    }),
+                  ),
+                style: 'default',
+              },
+            ]);
+          } else {
+            Alert.alert('Info', `Use ${response.data.data.otp} as your OTP`, [
+              {
+                text: 'OK',
+                onPress: () => onOtpOkPress(response),
+              },
+            ]);
+          }
         }
       }
     } catch (error) {
-      console.log('inside catch', error.message);
-      // if (error.message == 'Request failed with status code 500') {
-      Alert.alert('Information', `${error?.response?.data?.message}`);
-      // Snackbar.show({
-      //   text: error?.response?.data?.message,
-      //   duration: 4000,
-      //   backgroundColor: colors.RED,
-      // });
-      // }
-    } finally {
       setIsLoading(false);
+      Alert.alert(error?.response?.data?.message);
+      console.log('inside catch', error);
     }
   };
 

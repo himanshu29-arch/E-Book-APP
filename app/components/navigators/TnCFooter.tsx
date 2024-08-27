@@ -34,7 +34,7 @@ const TnCFooter = props => {
         <Text
           onPress={() =>
             Linking.openURL(
-              'https://sohojporaprod.s3.ap-south-1.amazonaws.com/policy/5af55d3b-ae58-4490-9a82-6ee58a5a355d_en.html',
+              'https://sohojporaprod.s3.ap-south-1.amazonaws.com/policy/htmlCode+(2).pdf',
             )
           }
           style={{
@@ -58,7 +58,7 @@ const TnCFooter = props => {
         <Text
           onPress={() => {
             Linking.openURL(
-              'https://sohojporaprod.s3.ap-south-1.amazonaws.com/policy/htmlCode+(2).pdf',
+              'https://sohojporaprod.s3.ap-south-1.amazonaws.com/policy/5af55d3b-ae58-4490-9a82-6ee58a5a355d_en.html',
             );
           }}
           style={{

@@ -17,8 +17,13 @@ export const endpoints = {
   GET_BOOKS_BY_CATEGORY_ID: 'categories/search-book?category_id=',
   GET_PAYMENT_HISTORY_BY_USER_ID: 'analog-payments/user/',
 
+  DELETE_ACCOUNT: 'profile/delete',
+
   //?  CHAT
   GET_ALL_MESSAGES: 'chat/messages',
   SEND_MESSAGE: 'chat/send',
   DELETE_MESSAGE: 'chat/messages',
+
+  //? PAYMENT
+  GET_PAYMENT_METHODS: 'payment-methods',
 };

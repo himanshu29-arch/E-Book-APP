@@ -34,6 +34,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {useIcon} from '../../../assets/icons/useIcon';
 import CustomAlert from '../../../components/alerts/CustomAlert';
 import {PaymentAlertIllus} from '../../../assets/images';
+import {endpoints} from '../../../constants/colors/endpoints';
 
 const AnalogPaymentForm = ({route, navigation}) => {
   const {category_data} = route.params;
@@ -130,10 +131,6 @@ const AnalogPaymentForm = ({route, navigation}) => {
     formData.append('category_id', category_data?.id.toString());
     formData.append('amount', amount);
 
-    console.log(
-      '🚀 ~ file: handleSumbitAnalogForm.js:118 ~ handleSumbitAnalogForm ~ formData:\n',
-      JSON.stringify(formData),
-    );
     const response = await axios.post(`${BASE_URL}analog-payment`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -342,7 +339,7 @@ const AnalogPaymentForm = ({route, navigation}) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        'http://43.204.161.117/api/payment-methods',
+        `${BASE_URL}${endpoints.GET_PAYMENT_METHODS}`,
       );
       console.log(response.status, 'response.status');
       console.log('🚀 ~ getPaymentNumber ~ response:', response.status);
@@ -358,7 +355,7 @@ const AnalogPaymentForm = ({route, navigation}) => {
       }
     } catch (error) {
       Snackbar.show({
-        text: response?.data?.message,
+        text: error?.response?.data?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });

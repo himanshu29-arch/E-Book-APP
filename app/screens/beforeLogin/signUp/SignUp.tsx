@@ -36,6 +36,7 @@ import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {login} from '../../../redux/authSlice';
 import TnCFooter from '../../../components/navigators/TnCFooter';
+import {BASE_URL} from '../../../constants/storageKeys';
 
 const SignUp = ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -198,7 +199,7 @@ const SignUp = ({navigation}) => {
       console.log('🚀 ~ userSignupWithGoogle ~ email:', email);
       console.log('🚀 ~ userSignupWithGoogle ~ userId:', userId);
       const response = await axios.post(
-        'http://43.204.161.117/api/auth/google/callback',
+        `${BASE_URL}${endpoints?.GOOGLE_SIGNIN}`,
         {
           google_id: userId,
           email: email,
