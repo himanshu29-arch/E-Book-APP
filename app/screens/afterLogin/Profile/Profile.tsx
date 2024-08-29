@@ -91,7 +91,11 @@ const Profile = ({navigation}) => {
         buttonNegative: 'Cancel',
       },
     );
-    if (isCameraPermitted) {
+    console.log(
+      '🚀 ~ handleOpenCamera ~ isCameraPermitted:',
+      isCameraPermitted,
+    );
+    if (isCameraPermitted === PermissionsAndroid.RESULTS.GRANTED) {
       try {
         await launchCamera(
           {
@@ -99,7 +103,7 @@ const Profile = ({navigation}) => {
           },
           response => {
             console.log(response);
-            setImageResponse(response?.assets[0]);
+
             if (response.didCancel) {
               Alert.alert('Information', 'Operation Cancelled');
               return;
@@ -112,6 +116,9 @@ const Profile = ({navigation}) => {
             } else if (response.errorCode == 'others') {
               Alert.alert('Information', response.errorMessage);
               return;
+            } else {
+              setImageResponse(response?.assets[0]);
+              return;
             }
           },
         );
@@ -119,6 +126,8 @@ const Profile = ({navigation}) => {
         console.error('Error launching camera:', error);
       }
       setShowAddPhotoModal(false);
+    } else {
+      Alert.alert('Permission not given');
     }
   };
 
@@ -138,7 +147,6 @@ const Profile = ({navigation}) => {
           mediaType: 'photo',
         },
         response => {
-          setImageResponse(response?.assets[0]);
           if (response.didCancel) {
             Alert.alert('Information', 'Operation Cancelled');
             return;
@@ -150,6 +158,9 @@ const Profile = ({navigation}) => {
             return;
           } else if (response.errorCode == 'others') {
             Alert.alert('Information', response.errorMessage);
+            return;
+          } else {
+            setImageResponse(response?.assets[0]);
             return;
           }
         },

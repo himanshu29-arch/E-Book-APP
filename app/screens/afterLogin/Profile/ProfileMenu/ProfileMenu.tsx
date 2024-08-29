@@ -2,6 +2,7 @@ import {
   Alert,
   Image,
   ImageBackground,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -10,13 +11,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fp, hp, wp} from '../../../../helpers/resDimension';
-import {
-  DummyProfImg,
-  FullBg,
-  MyBooks,
-  UserIcon,
-  headerBg,
-} from '../../../../assets/images';
+import {FullBg, UserIcon} from '../../../../assets/images';
 import {typography} from '../../../../assets/fonts/typography';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {apiClient} from '../../../../helpers/apiClient';
@@ -32,7 +27,6 @@ import {
   RightArrow,
   Settings,
 } from '../../../../assets/ProfileMenu';
-import {useIcon} from '../../../../assets/icons/useIcon';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../../../redux/authSlice';
@@ -170,17 +164,20 @@ const ProfileMenu = ({navigation}) => {
 
     if (loginType == 'google') {
       console.log('google sign out');
+      await AsyncStorage.setItem('isLoggedIn', 'no');
       dispatch(logout());
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
 
-      await AsyncStorage.clear();
+      // await AsyncStorage.clear();
       console.log('🚀 ~ OnSignOutAlertOK ~ inside google logout:', loginType);
       // navigation.navigate('Login');
     } else {
       console.log('mannual sign out');
+      await AsyncStorage.setItem('isLoggedIn', 'no');
       dispatch(logout());
-      await AsyncStorage.clear();
+
+      // await AsyncStorage.clear();
       console.log('🚀 ~ OnSignOutAlertOK ~ inside mannual logout:', loginType);
       // navigation.navigate('Login');
     }
@@ -202,7 +199,8 @@ const ProfileMenu = ({navigation}) => {
       if (response.status === 200) {
         setIsLoading(false);
         dispatch(logout());
-        await AsyncStorage.clear();
+        await AsyncStorage.setItem('isLoggedIn', 'no');
+        // await AsyncStorage.clear();
       }
     } catch (error) {
       console.log(
@@ -285,267 +283,273 @@ const ProfileMenu = ({navigation}) => {
           </Text>
         </View>
       </ImageBackground>
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          marginTop: hp(2),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity onPress={handleEditProfile}>
-          <List.Item
-            title="Edit Profile"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
-            }}
-            left={props => (
-              <Image
-                source={EditProfile}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
-          />
-        </TouchableOpacity>
+      <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            marginTop: hp(2),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity onPress={handlePaymentMethods}>
-          <List.Item
-            title="Payment Methods"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={handleEditProfile}>
+            <List.Item
+              title="Edit Profile"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={EditProfile}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
             }}
-            left={props => (
-              <Image
-                source={PaymentMethods}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
           />
-        </TouchableOpacity>
+        </View>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity onPress={handleSettings}>
-          <List.Item
-            title="Settings"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={handlePaymentMethods}>
+            <List.Item
+              title="Payment Methods"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={PaymentMethods}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
             }}
-            left={props => (
-              <Image
-                source={Settings}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
           />
-        </TouchableOpacity>
+        </View>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity onPress={handleChat}>
-          <List.Item
-            title="Help Center"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={handleSettings}>
+            <List.Item
+              title="Settings"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={Settings}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
             }}
-            left={props => (
-              <Image
-                source={Chat}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
           />
-        </TouchableOpacity>
+        </View>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity
-          onPress={() =>
-            // navigation.navigate('UserBooks')
-            getUserPaymentDetails()
-          }>
-          <List.Item
-            title="My Books"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={handleChat}>
+            <List.Item
+              title="Help Center"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={Chat}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
             }}
-            left={props => (
-              <Image
-                source={require('../../../../assets/images/MyBooks.png')}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
           />
-        </TouchableOpacity>
+        </View>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
+          }}>
+          <TouchableOpacity
+            onPress={() =>
+              // navigation.navigate('UserBooks')
+              getUserPaymentDetails()
+            }>
+            <List.Item
+              title="My Books"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={require('../../../../assets/images/MyBooks.png')}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
+            }}
+          />
+        </View>
 
-      <View
-        style={{
-          width: wp(90),
-          marginLeft: wp(5),
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <TouchableOpacity onPress={handleSignOut}>
-          <List.Item
-            title="Logout"
-            titleStyle={{
-              fontFamily: typography.Inter_Bold,
-              color: 'black',
-              fontSize: fp(1.8),
-              justifyContent: 'center',
-            }}
-            left={props => (
-              <Image
-                source={Logout}
-                style={{height: hp(6), width: fp(5)}}
-                resizeMode="contain"
-              />
-            )}
-            right={props => (
-              <Image
-                source={RightArrow}
-                style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
-                resizeMode="contain"
-              />
-            )}
-          />
-        </TouchableOpacity>
         <View
           style={{
-            height: fp(0.1),
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            width: wp(82),
+            width: wp(90),
+            marginLeft: wp(5),
+            justifyContent: 'center',
             alignSelf: 'center',
-          }}
-        />
-      </View>
-      <TouchableOpacity
-        onPress={handleAccountDelete}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: hp(2),
-        }}>
-        <Text style={{color: 'red'}}>Request Account Delete</Text>
-      </TouchableOpacity>
+          }}>
+          <TouchableOpacity onPress={handleSignOut}>
+            <List.Item
+              title="Logout"
+              titleStyle={{
+                fontFamily: typography.Inter_Bold,
+                color: 'black',
+                fontSize: fp(1.8),
+                justifyContent: 'center',
+              }}
+              left={props => (
+                <Image
+                  source={Logout}
+                  style={{height: hp(6), width: fp(5)}}
+                  resizeMode="contain"
+                />
+              )}
+              right={props => (
+                <Image
+                  source={RightArrow}
+                  style={{height: hp(3), width: fp(2), alignSelf: 'center'}}
+                  resizeMode="contain"
+                />
+              )}
+            />
+          </TouchableOpacity>
+
+          <View
+            style={{
+              height: fp(0.1),
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              width: wp(82),
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+        <TouchableOpacity
+          onPress={handleAccountDelete}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: hp(2),
+          }}>
+          <Text
+            style={{color: '#D2042D', fontWeight: '600', fontSize: fp(1.6)}}>
+            Request Account Delete
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };

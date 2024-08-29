@@ -1,14 +1,9 @@
 import * as React from 'react';
 import {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import AfterLoginStack from './app/components/navigators/AfterLoginStack';
-import BeforeLoginStack from './app/components/navigators/BeforeLoginStack';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider, useSelector} from 'react-redux';
 import {store} from './app/redux/Store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MyOrders from './app/screens/afterLogin/MyOrders/MyOrders';
-import {MyDrawer} from './app/helpers/DrawerNavigation/DrawerNavigation';
 import Orientation from 'react-native-orientation-locker';
 import RootNavigation from './RootNavigation';
 export default function App() {
@@ -34,11 +29,18 @@ export default function App() {
 const AppContent = () => {
   // Assuming you have a logged-in state in your Redux store
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Replace with your actual state
-
+  const [IS_USER, setIS_USER] = React.useState('no');
   useEffect(() => {
-    // Add a side-effect to log the current login state
-    console.log('Login state changed:', isLoggedIn);
+    const checkToken = async () => {
+      // const TOKEN = await AsyncStorage.getItem('token');
+      const isUserLoggedin = await AsyncStorage.getItem('isLoggedIn');
+      console.log('🚀 ~ checkToken ~ isUserLoggedin:', isUserLoggedin);
+      setIS_USER(isUserLoggedin);
+    };
+
+    checkToken();
+    console.log('🚀 ~ RootNavigation ~ isLoggedIn:', isLoggedIn);
   }, [isLoggedIn]);
 
-  return <RootNavigation isLoggedIn={isLoggedIn} />;
+  return <RootNavigation isLoggedIn={isLoggedIn} IS_USER={IS_USER} />;
 };

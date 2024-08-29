@@ -88,7 +88,7 @@ const PdfBooks = ({navigation, route}) => {
       console.log('🚀 ~ handleGetPaymentHistory ~ error:', error?.message);
 
       Snackbar.show({
-        text: error.message,
+        text: error?.response?.data?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });

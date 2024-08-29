@@ -62,6 +62,7 @@ const Otp = ({navigation, route}) => {
           userEmail: email,
         }),
       );
+      await AsyncStorage.setItem('isLoggedIn', 'yes');
       //    await AsyncStorage.setItem('loginType', 'mannual');
       // navigation?.navigate('Home');
     }

@@ -222,6 +222,8 @@ const SignUp = ({navigation}) => {
             userEmail: response?.data?.email,
           }),
         );
+
+        await AsyncStorage.setItem('isLoggedIn', 'yes');
       }
     } catch (error) {
       console.log('inside catch', error.message);

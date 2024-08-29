@@ -6,8 +6,8 @@ import AfterLoginStack from './app/components/navigators/AfterLoginStack';
 import BeforeLoginStack from './app/components/navigators/BeforeLoginStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RootNavigation = ({isLoggedIn}) => {
-  // const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+const RootNavigation = ({isLoggedIn, IS_USER}) => {
+  console.log('🚀 ~ RootNavigation ~ IS_USER:', IS_USER);
   console.log('🚀 ~ RootNavigation ~ isLoggedIn:', isLoggedIn);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
@@ -20,7 +20,6 @@ const RootNavigation = ({isLoggedIn}) => {
     };
 
     checkToken();
-    console.log('🚀 ~ RootNavigation ~ isLoggedIn:', isLoggedIn);
   }, [isLoggedIn]);
 
   if (isLoading) {
@@ -30,7 +29,11 @@ const RootNavigation = ({isLoggedIn}) => {
 
   return (
     <NavigationContainer>
-      {isLoggedIn == true ? <AfterLoginStack /> : <BeforeLoginStack />}
+      {isLoggedIn || IS_USER == 'yes' ? (
+        <AfterLoginStack />
+      ) : (
+        <BeforeLoginStack />
+      )}
     </NavigationContainer>
   );
 };

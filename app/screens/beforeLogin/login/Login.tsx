@@ -106,6 +106,7 @@ const Login = ({navigation}) => {
           'user_id',
           response?.data?.user?.id.toString(),
         );
+        await AsyncStorage.setItem('isLoggedIn', 'yes');
         dispatch(
           login({
             userName: response?.data?.name,
@@ -273,13 +274,16 @@ const Login = ({navigation}) => {
               {
                 text: 'Ok',
                 // onPress: () => onAlertOK(response?.data?.data),
-                onPress: () =>
+                onPress: async () => {
                   dispatch(
                     login({
                       userName: response?.data?.name,
                       userEmail: response?.data?.email,
                     }),
-                  ),
+                  );
+                  await AsyncStorage.setItem('isLoggedIn', 'yes');
+                },
+
                 style: 'default',
               },
             ]);
