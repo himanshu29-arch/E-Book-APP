@@ -65,7 +65,11 @@ yarn-error.log
 # testing
 /coverage
 
-#ignore bundle file
+# Ignore all APK and AAB files
+*.apk
+*.aab
+
+# Specific paths if needed
+android/app/release/app-release.apk
+android/app/release/app-release.aab
 app/release/app-release.aab
-app/release/app-release.apk
-app-release.apk
