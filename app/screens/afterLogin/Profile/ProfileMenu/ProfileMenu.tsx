@@ -152,41 +152,51 @@ const ProfileMenu = ({navigation}) => {
   const dispatch = useDispatch();
   let type = '';
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Replace with your actual state
-  console.log('🚀 ~ isLoggedIn:', isLoggedIn);
+
   async function OnSignOutAlertOK() {
-    GoogleSignin.configure({
-      webClientId:
-        '723565053960-od53ug0qkd44176je7067hhijuqoie8v.apps.googleusercontent.com',
-      offlineAccess: true,
-    });
-    const loginType = await AsyncStorage.getItem('loginType');
-    console.log('🚀 ~ OnSignOutAlertOK ~ loginType:', loginType);
+    try {
+      // Configure Google Sign-In
+      GoogleSignin.configure({
+        webClientId:
+          '723565053960-od53ug0qkd44176je7067hhijuqoie8v.apps.googleusercontent.com',
+        offlineAccess: true,
+      });
 
-    if (loginType == 'google') {
-      console.log('google sign out');
-      await AsyncStorage.setItem('isLoggedIn', 'no');
+      // Get the login type from AsyncStorage
+      const loginType = await AsyncStorage.getItem('loginType');
+      console.log('🚀 ~ OnSignOutAlertOK ~ loginType:', loginType);
+
+      // Perform logout based on login type
+      if (loginType === 'google') {
+        console.log('Google sign out');
+
+        // Sign out from Google
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+      } else {
+        console.log('Manual sign out');
+      }
+
+      // Dispatch logout action
       dispatch(logout());
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
 
-      // await AsyncStorage.clear();
-      console.log('🚀 ~ OnSignOutAlertOK ~ inside google logout:', loginType);
-      // navigation.navigate('Login');
-    } else {
-      console.log('mannual sign out');
-      await AsyncStorage.setItem('isLoggedIn', 'no');
-      dispatch(logout());
+      console.log('🚀 ~ OnSignOutAlertOK ~ inside logout:', loginType);
 
+      // Optionally clear all AsyncStorage (commented out)
       // await AsyncStorage.clear();
-      console.log('🚀 ~ OnSignOutAlertOK ~ inside mannual logout:', loginType);
+
+      // Optionally navigate to the Login screen (commented out)
       // navigation.navigate('Login');
+    } catch (error) {
+      console.error('Error during sign out:', error);
     }
   }
   async function OnDeleteAccountAlertOk() {
-    console.log('🚀 ~ getPaymentNumber ~ getPaymentNumber:');
+    console.log('🚀 ~ OnDeleteAccountAlertOk ~ Start:');
     try {
       const token = await AsyncStorage.getItem('token');
       setIsLoading(true);
+
       const response = await axios.delete(
         `${BASE_URL}${endpoints.DELETE_ACCOUNT}`,
         {
@@ -197,9 +207,14 @@ const ProfileMenu = ({navigation}) => {
       );
 
       if (response.status === 200) {
+        // Update AsyncStorage before dispatching logout
+
         setIsLoading(false);
+
+        // Dispatch logout action after AsyncStorage update
         dispatch(logout());
-        await AsyncStorage.setItem('isLoggedIn', 'no');
+
+        // Optionally clear AsyncStorage (commented out)
         // await AsyncStorage.clear();
       }
     } catch (error) {
@@ -207,15 +222,18 @@ const ProfileMenu = ({navigation}) => {
         '🚀 ~ OnDeleteAccountAlertOk ~ error:',
         error?.response?.data?.message,
       );
+
       Snackbar.show({
-        text: error?.response?.data?.message,
+        text:
+          error?.response?.data?.message ||
+          'Error deleting account. Please try again.',
         duration: 2000,
         backgroundColor: color.RED,
       });
-      // }
+    } finally {
+      setIsLoading(false); // Ensure loading state is reset
     }
   }
-
   function handleSettings() {
     navigation.navigate('Settings');
   }

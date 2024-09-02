@@ -106,7 +106,7 @@ const Login = ({navigation}) => {
           'user_id',
           response?.data?.user?.id.toString(),
         );
-        await AsyncStorage.setItem('isLoggedIn', 'yes');
+
         dispatch(
           login({
             userName: response?.data?.name,
@@ -281,7 +281,6 @@ const Login = ({navigation}) => {
                       userEmail: response?.data?.email,
                     }),
                   );
-                  await AsyncStorage.setItem('isLoggedIn', 'yes');
                 },
 
                 style: 'default',

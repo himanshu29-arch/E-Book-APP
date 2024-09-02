@@ -14,7 +14,11 @@ class MainActivity : ReactActivity() {
      * rendering of the component.
      */
     override fun getMainComponentName(): String = "SohojPora"
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Show splash screen before calling super.onCreate
+        // SplashScreen.show(this)
+        super.onCreate(null)  // Pass null to prevent restoring the instance state
+    }
     /**
      * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
      * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
@@ -23,4 +27,5 @@ class MainActivity : ReactActivity() {
         SplashScreen.show(this)
         return DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
     }
+
 }

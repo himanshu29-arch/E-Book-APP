@@ -70,7 +70,7 @@ const Home = ({navigation}) => {
     } catch (error) {
       console.log('inside catch', error?.message);
       Snackbar.show({
-        text: response?.data?.message,
+        text: error?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });
@@ -96,7 +96,7 @@ const Home = ({navigation}) => {
     } catch (error) {
       console.log('Error:', error.message);
       Snackbar.show({
-        text: error.message,
+        text: error?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });
@@ -142,7 +142,7 @@ const Home = ({navigation}) => {
     } catch (error) {
       console.log('inside catch', error?.message);
       Snackbar.show({
-        text: response?.data?.message,
+        text: error?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });
@@ -164,7 +164,7 @@ const Home = ({navigation}) => {
     } catch (error) {
       console.log('inside catch', error?.message);
       Snackbar.show({
-        text: response?.data?.message,
+        text: error?.message,
         duration: 2000,
         backgroundColor: color.RED,
       });

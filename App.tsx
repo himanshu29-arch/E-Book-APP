@@ -2,10 +2,11 @@ import * as React from 'react';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider, useSelector} from 'react-redux';
-import {store} from './app/redux/Store';
+import {persistor, store} from './app/redux/Store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 import RootNavigation from './RootNavigation';
+import {PersistGate} from 'redux-persist/integration/react';
 export default function App() {
   useEffect(() => {
     setTimeout(() => {
@@ -22,25 +23,18 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <AppContent />
+      <PersistGate loading={null} persistor={persistor}>
+        <AppContent />
+      </PersistGate>
     </Provider>
   );
 }
 const AppContent = () => {
   // Assuming you have a logged-in state in your Redux store
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Replace with your actual state
-  const [IS_USER, setIS_USER] = React.useState('no');
-  useEffect(() => {
-    const checkToken = async () => {
-      // const TOKEN = await AsyncStorage.getItem('token');
-      const isUserLoggedin = await AsyncStorage.getItem('isLoggedIn');
-      console.log('🚀 ~ checkToken ~ isUserLoggedin:', isUserLoggedin);
-      setIS_USER(isUserLoggedin);
-    };
+  console.log('🚀 ~ AppContent ~ isLoggedIn:', isLoggedIn);
 
-    checkToken();
-    console.log('🚀 ~ RootNavigation ~ isLoggedIn:', isLoggedIn);
-  }, [isLoggedIn]);
+  useEffect(() => {}, [isLoggedIn]);
 
-  return <RootNavigation isLoggedIn={isLoggedIn} IS_USER={IS_USER} />;
+  return <RootNavigation isLoggedIn={isLoggedIn} />;
 };
