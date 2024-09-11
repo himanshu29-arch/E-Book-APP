@@ -57,9 +57,7 @@ const TnCFooter = props => {
         </Text>
         <Text
           onPress={() => {
-            Linking.openURL(
-              'https://sohojporaprod.s3.ap-south-1.amazonaws.com/policy/5af55d3b-ae58-4490-9a82-6ee58a5a355d_en.html',
-            );
+            Linking.openURL('https://sohojpora.com/home/privacy_policy');
           }}
           style={{
             fontFamily: typography?.Inter_Medium,

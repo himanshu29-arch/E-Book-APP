@@ -31,7 +31,6 @@ import CommentInput from '../../../components/commentInput/CommentInput';
 import CommentReplyInput from '../../../components/commentInput/CommentReplyInput';
 import CommentMenuModal from '../../../components/CommentMenu/CommentMenuModal';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import CommentAlert from '../../../components/CommentAlert/CommentAlert';
 import VideoPlayerEx from '../../../components/VideoPlayer/VideoPlayer';
 import {BASE_URL} from '../../../constants/storageKeys';
 import {useDispatch} from 'react-redux';
@@ -41,6 +40,7 @@ import DislikeButton from '../../../components/LikeButton/DislikeButton';
 import CommentButton from '../../../components/LikeButton/CommentButton';
 import {useNavigationState} from '@react-navigation/native';
 import {EditProfile} from '../../../assets/ProfileMenu';
+import {endpoints} from '../../../constants/colors/endpoints';
 const BookVideos: React.FC = ({navigation, route}) => {
   const {BookDetails, VideoUri} = route.params;
   const dispatch = useDispatch();
@@ -53,7 +53,6 @@ const BookVideos: React.FC = ({navigation, route}) => {
   const [commentIdTobeEdit, setCommentIdTobeEdit] = useState();
   const [replyIdTobeEdit, setReplyIdTobeEdit] = useState();
   const [imageResponseUI, setImageResponseUI] = useState({});
-
   const [bookVideosRes, setBookVideosRes] = useState([]);
   const [openCommentMenuIndex, setOpenCommentMenuIndex] = useState(null);
   const [openCommentReplyMenuIndex, setOpenCommentReplyMenuIndex] =
@@ -587,9 +586,18 @@ const BookVideos: React.FC = ({navigation, route}) => {
           width: wp(20),
         }}>
         <Image
-          source={EditProfile}
-          style={{height: fp(6), width: fp(6), marginTop: hp(2)}}
-          resizeMode="contain"
+          source={
+            item?.user?.profile_image
+              ? {uri: item?.user?.profile_image}
+              : EditProfile
+          }
+          style={{
+            height: fp(6),
+            width: fp(6),
+            marginTop: hp(2),
+            borderRadius: fp(6),
+          }}
+          resizeMode="cover"
         />
 
         <View style={{marginLeft: wp(1.6), marginTop: hp(2)}}>
@@ -607,7 +615,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
                 fontSize: fp(1.5),
                 color: '#565555',
               }}>
-              SohibMirza
+              {item?.user?.name}
               <CustomText
                 type={'typeRegular'}
                 style={{
@@ -663,6 +671,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
   }
 
   function renderComments({item}) {
+    console.log('🚀 ~ renderComments ~ item:', item);
     const timeAgo = returnCommentCreatedTime(item?.created_at);
     return (
       <View
@@ -682,9 +691,18 @@ const BookVideos: React.FC = ({navigation, route}) => {
             width: wp(20),
           }}>
           <Image
-            source={EditProfile}
-            style={{height: fp(6), width: fp(6), marginTop: hp(2)}}
-            resizeMode="contain"
+            source={
+              item?.user?.profile_image
+                ? {uri: item?.user?.profile_image}
+                : EditProfile
+            }
+            borderRadius={fp(8)}
+            style={{
+              height: fp(6),
+              width: fp(6),
+              marginTop: hp(2),
+            }}
+            resizeMode="cover"
           />
           <View style={{marginLeft: wp(1.6), marginTop: hp(2)}}>
             <View
@@ -701,7 +719,8 @@ const BookVideos: React.FC = ({navigation, route}) => {
                   fontSize: fp(1.5),
                   color: '#565555',
                 }}>
-                SohibMirza
+                {item?.user?.name}
+                {/* SohibMirza */}
                 <CustomText
                   type={'typeRegular'}
                   style={{

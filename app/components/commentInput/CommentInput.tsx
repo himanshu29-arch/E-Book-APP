@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -13,6 +13,9 @@ import {
 } from '../../assets/images';
 import {fp, hp, wp} from '../../helpers/resDimension';
 import {EditProfile} from '../../assets/ProfileMenu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {apiClient} from '../../helpers/apiClient';
+import {endpoints} from '../../constants/colors/endpoints';
 
 const CommentInput = ({
   refInput,
@@ -23,10 +26,33 @@ const CommentInput = ({
   uri,
   isLandscape,
 }) => {
+  const [userProfile, setUserProfile] = useState({});
+  const handleGetProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await apiClient.get(`${endpoints.GET_PROFILE}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setUserProfile(response?.data?.data); // Assuming the user profile data is inside the `data` property
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    handleGetProfile();
+  }, []);
   return (
     <View style={styles.container}>
       <Image
-        source={EditProfile}
+        source={
+          userProfile?.profile_image
+            ? {uri: userProfile?.profile_image}
+            : EditProfile
+        }
         style={styles.profileImage}
         resizeMode="contain"
       />

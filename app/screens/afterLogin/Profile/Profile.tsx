@@ -184,23 +184,18 @@ const Profile = ({navigation}) => {
 
     // Validate Phone Number
     const phoneRegex = /^[0-9]{11}$/;
-    if (!phone.trim()) {
-      console.log('phone empty');
-      errors.phone = 'Phone number is required';
-    } else if (!phoneRegex.test(phone.trim())) {
-      console.log('phone invalid');
-      errors.phone = 'Invalid phone number';
+    if (phone) {
+      if (!phone.trim()) {
+        console.log('phone empty');
+        errors.phone = 'Phone number is required';
+      } else if (!phoneRegex.test(phone.trim())) {
+        console.log('phone invalid');
+        errors.phone = 'Invalid phone number';
+      }
+    } else {
+      errors.phone = 'Phone is required ';
     }
 
-    // Validate Password
-    // if (!password.trim()) {
-    //   console.log('pass empty');
-    //   errors.password = 'Password is required';
-    // } else if (password.trim().length < 6) {
-    //   console.log('pass invalid');
-    //   errors.password = 'Password must be at least 6 characters';
-    // }
-    // Validate Email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim()) {
       console.log('email empty');
@@ -300,11 +295,16 @@ const Profile = ({navigation}) => {
         setIsLoading(false);
       }
     } else {
-      console.log(errors);
+      console.log(errors, 'errors');
+      const errorKeys = Object.keys(errors);
+
       let errorMessage = '';
-      for (let field in errors) {
-        errorMessage += `${errors[field]}`;
-      }
+      errorKeys.forEach((field, index) => {
+        errorMessage += errors[field];
+        if (index < errorKeys.length - 1) {
+          errorMessage += ', ';
+        }
+      });
       Snackbar.show({
         text: errorMessage,
         backgroundColor: color.PRIMARY_BLUE,

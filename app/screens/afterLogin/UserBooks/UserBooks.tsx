@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {
+  Alert,
   Image,
   ImageBackground,
   Pressable,
@@ -8,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {headerBg} from '../../../assets/images/index';
+import {headerBg, PaymentAlertIllus} from '../../../assets/images/index';
 import Header from '../../../components/header/Header';
 import {color, colorArray} from '../../../constants/colors/colors';
 import {fp, hp, wp} from '../../../helpers/resDimension';
@@ -16,11 +17,14 @@ import {endpoints} from '../../../constants/colors/endpoints';
 import {apiClient} from '../../../helpers/apiClient';
 import Snackbar from 'react-native-snackbar';
 import {FlatList} from 'react-native-gesture-handler';
+import CustomAlert from '../../../components/alerts/CustomAlert';
+import React from 'react';
 
 const UserBooks = ({navigation, route}) => {
   const {categoryArray} = route.params;
   console.log('🚀 ~ UserBooks ~ categoryArray:', categoryArray);
   const [searchText, setSearchText] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const [classData, setClassData] = useState(categoryArray);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -155,12 +159,31 @@ const UserBooks = ({navigation, route}) => {
           }}>
           Class: (1-10) Books
         </Text>
+
         <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
           <FlatList
             data={categoryArray}
             renderItem={renderClasses}
             numColumns={2}
           />
+          {/* {categoryArray.length > 0 ? (
+            
+          ) : (
+            <CustomAlert
+              title=""
+              subTitle="You haven't purchased any book bundles yet."
+              img={null}
+              isImg={PaymentAlertIllus}
+              onPress={() => {
+                setShowAlert(false);
+                ;
+              }}
+              onClosePress={() => {
+                setShowAlert(false);
+              }}
+              btnTitle={'Done'}
+            />
+          )} */}
         </View>
       </KeyboardAwareScrollView>
     </View>

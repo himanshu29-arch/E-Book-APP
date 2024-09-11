@@ -84,9 +84,9 @@ const Otp = ({navigation, route}) => {
           `Otp Verified\n${
             previousRoute == 'signup'
               ? 'Sign up successful'
-              : previousRoute == 'signup'
+              : previousRoute == 'login'
               ? 'Login successful'
-              : 'Reset your password.'
+              : ''
           }`,
           [
             {

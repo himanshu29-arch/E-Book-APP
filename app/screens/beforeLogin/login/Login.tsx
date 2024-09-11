@@ -261,39 +261,39 @@ const Login = ({navigation}) => {
       });
       console.log(response.status, 'response.status');
       if (response.status === 200) {
-        if (response.status === 200) {
-          setRes(response.data);
-          await AsyncStorage.setItem('loginType', 'mannual');
-          await AsyncStorage.setItem('token', response?.data?.token);
-          await AsyncStorage.setItem(
-            'user_id',
-            response?.data?.data?.id.toString(),
+        console.log(response?.data?.data);
+        setRes(response.data);
+        await AsyncStorage.setItem('loginType', 'mannual');
+        await AsyncStorage.setItem('token', response?.data?.token);
+        await AsyncStorage.setItem(
+          'user_id',
+          response?.data?.data?.id.toString(),
+        );
+        if (response.data.data.otp == null) {
+          dispatch(
+            login({
+              userName: response?.data?.name,
+              userEmail: response?.data?.email,
+            }),
           );
-          if (response.data.data.otp == null) {
-            Alert.alert('Information', `${response.data.message}`, [
-              {
-                text: 'Ok',
-                // onPress: () => onAlertOK(response?.data?.data),
-                onPress: async () => {
-                  dispatch(
-                    login({
-                      userName: response?.data?.name,
-                      userEmail: response?.data?.email,
-                    }),
-                  );
-                },
+          // Alert.alert('Information', `${response.data.message}`, [
+          //   {
+          //     text: 'Ok',
+          //     // onPress: () => onAlertOK(response?.data?.data),
+          //     onPress: async () => {
 
-                style: 'default',
-              },
-            ]);
-          } else {
-            Alert.alert('Info', `Use ${response.data.data.otp} as your OTP`, [
-              {
-                text: 'OK',
-                onPress: () => onOtpOkPress(response),
-              },
-            ]);
-          }
+          //     },
+
+          //     style: 'default',
+          //   },
+          // ]);
+        } else {
+          Alert.alert('Info', `An OTP has been sent to your email ${email}.`, [
+            {
+              text: 'OK',
+              onPress: () => onOtpOkPress(response),
+            },
+          ]);
         }
       }
     } catch (error) {
@@ -329,7 +329,7 @@ const Login = ({navigation}) => {
           leftIconName="UserOutline"
           isRightIcon={false}
           rightIconName=""
-          placeholder="Enter Username"
+          placeholder="Enter mail"
           onChangeText={handleEmail}
           value={email}
         />

@@ -3,12 +3,13 @@ import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider, useSelector} from 'react-redux';
 import {persistor, store} from './app/redux/Store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 import RootNavigation from './RootNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
+import {Appearance} from 'react-native';
 export default function App() {
   useEffect(() => {
+    Appearance.setColorScheme('light');
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fp, hp, wp} from '../../../../helpers/resDimension';
-import {FullBg, UserIcon} from '../../../../assets/images';
+import {FullBg, PaymentAlertIllus, UserIcon} from '../../../../assets/images';
 import {typography} from '../../../../assets/fonts/typography';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {apiClient} from '../../../../helpers/apiClient';
@@ -32,6 +32,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../../../redux/authSlice';
 import axios from 'axios';
 import {BASE_URL} from '../../../../constants/storageKeys';
+import CustomAlert from '../../../../components/alerts/CustomAlert';
 
 const ProfileMenu = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -84,9 +85,14 @@ const ProfileMenu = ({navigation}) => {
           '🚀 ~ getUserPaymentDetails ~ categoryArray:',
           categoryArray,
         );
-        navigation.navigate('UserBooks', {
-          categoryArray: categoryArray,
-        });
+        if (categoryArray.length <= 0) {
+          Alert.alert(`You haven't purchased any book bundle yet.`);
+        } else {
+          navigation.navigate('UserBooks', {
+            categoryArray: categoryArray,
+          });
+        }
+
         // const isPurchased = response?.data?.some(
         //   item => item.category_id === category_data?.id,
         // );
@@ -344,7 +350,7 @@ const ProfileMenu = ({navigation}) => {
             }}
           />
         </View>
-        <View
+        {/* <View
           style={{
             width: wp(90),
             marginLeft: wp(5),
@@ -384,8 +390,8 @@ const ProfileMenu = ({navigation}) => {
               alignSelf: 'center',
             }}
           />
-        </View>
-        <View
+        </View> */}
+        {/* <View
           style={{
             width: wp(90),
             marginLeft: wp(5),
@@ -425,7 +431,7 @@ const ProfileMenu = ({navigation}) => {
               alignSelf: 'center',
             }}
           />
-        </View>
+        </View> */}
         <View
           style={{
             width: wp(90),

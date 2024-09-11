@@ -320,6 +320,9 @@ const PdfBooks = ({navigation, route}) => {
         backgroundColor={color.PRIMARY_BLUE}
         font={'regular'}
         leftIconName={'leftArrow'}
+        onRightPress={() => {
+          navigation?.navigate('ProfileMenu');
+        }}
       />
       {completedBooks.length > 0 ? (
         <FlatList
