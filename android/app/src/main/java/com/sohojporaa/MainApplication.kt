@@ -1,4 +1,4 @@
-package com.sohojpora
+package com.sohojporaa
 
 import android.app.Application
 import com.facebook.react.PackageList

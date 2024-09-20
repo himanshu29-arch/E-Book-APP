@@ -1,4 +1,4 @@
-package com.sohojpora
+package com.sohojporaa
 
 import android.os.Bundle
 import com.facebook.react.ReactActivity
