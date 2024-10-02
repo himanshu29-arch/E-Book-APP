@@ -24,6 +24,7 @@ import {endpoints} from '../../../constants/colors/endpoints';
 import Snackbar from 'react-native-snackbar';
 import {FlatList} from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
@@ -35,26 +36,21 @@ const Home = ({navigation}) => {
   const [latestCategory, setLatestCategory] = useState({});
   const handleSearch = () => {
     // Perform search functionality here
-    console.log('Searching for:', searchText);
+    // console.log('Searching for:', searchText);
   };
 
   const handleGetCategories = async () => {
     try {
       setIsLoading(true);
+      const userId = await AsyncStorage.getItem('user_id');
+      const token = await AsyncStorage.getItem('token');
+      console.log('🚀 ~ handleGetCategories ~ userId:', token);
       const response = await apiClient.get(`${endpoints.GET_CATEGORIES}`);
-      console.log(response.status, 'response.status');
+      // console.log(response.status, 'response.status');
       if (response.status === 200) {
-        console.log(
-          '🚀 ~ handleGetBooks ~ response?.data?.books:',
-          response?.data?.books,
-        );
         const categories = response?.data?.categories;
         const bookCategories = categories.filter(
           (category: {type: string}) => category.type === 'Book',
-        );
-        console.log(
-          '🚀 ~ handleGetCategories ~ bookCategories:',
-          bookCategories,
         );
         if (bookCategories.length > 0) {
           const latestCategory = bookCategories.shift();
@@ -62,13 +58,13 @@ const Home = ({navigation}) => {
           handleGetBooksByCategoryId(latestCategory?.id);
         } else {
           // Handle case where there are no book categories
-          console.log('No categories of type "Book" found.');
+          // console.log('No categories of type "Book" found.');
         }
 
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('inside catch', error?.message);
+      // console.log('inside catch', error?.message);
       Snackbar.show({
         text: error?.message,
         duration: 2000,
@@ -87,10 +83,10 @@ const Home = ({navigation}) => {
         `${endpoints.GET_BOOKS_BY_CATEGORY_ID}${category_id}`,
       );
       if (response.status === 200) {
-        console.log(
-          '🚀 ~ handleGetBooksByCategoryId ~ response?.data:',
-          response?.data,
-        );
+        // console.log(
+        //   '🚀 ~ handleGetBooksByCategoryId ~ response?.data:',
+        //   response?.data,
+        // );
         setRes(response?.data);
       }
     } catch (error) {
@@ -125,16 +121,16 @@ const Home = ({navigation}) => {
   }, []);
 
   const handleGetBooks = async () => {
-    console.log('🚀 ~ handleGetBooks ~ handleGetBooks:');
+    // console.log('🚀 ~ handleGetBooks ~ handleGetBooks:');
     try {
       setIsLoading(true);
       const response = await apiClient.get(`${endpoints.GET_BOOKS}`);
-      console.log(response.status, 'response.status');
+      // console.log(response.status, 'response.status');
       if (response.status === 200) {
-        console.log(
-          '🚀 ~ handleGetBooks ~ response?.data?.books:',
-          response?.data?.books,
-        );
+        // console.log(
+        //   '🚀 ~ handleGetBooks ~ response?.data?.books:',
+        //   response?.data?.books,
+        // );
 
         setBookDetails(response?.data?.books);
         setIsLoading(false);
@@ -156,13 +152,13 @@ const Home = ({navigation}) => {
     try {
       setIsLoading(true);
       const response = await apiClient.get(`${endpoints.GET_COURSES}`);
-      console.log(response.status, 'response.status');
+      // console.log(response.status, 'response.status');
       if (response.status === 200) {
         setCourses(response?.data?.courses);
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('inside catch', error?.message);
+      // console.log('inside catch', error?.message);
       Snackbar.show({
         text: error?.message,
         duration: 2000,
@@ -175,7 +171,7 @@ const Home = ({navigation}) => {
   };
 
   const renderBooks = ({item}) => {
-    console.log('🚀 ~ renderBooks ~ item:', item);
+    // console.log('🚀 ~ renderBooks ~ item:', item);
     return (
       <Pressable
         style={{elevation: 2}}
@@ -246,7 +242,7 @@ const Home = ({navigation}) => {
   }
 
   const renderCourses = ({item}) => {
-    console.log('🚀 ~ renderCourses ~ item:', item.name);
+    // console.log('🚀 ~ renderCourses ~ item:', item.name);
     return (
       <Pressable
         onPress={() => {

@@ -32,7 +32,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../../../redux/authSlice';
 import axios from 'axios';
 import {BASE_URL} from '../../../../constants/storageKeys';
-import CustomAlert from '../../../../components/alerts/CustomAlert';
 
 const ProfileMenu = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -200,7 +199,10 @@ const ProfileMenu = ({navigation}) => {
   async function OnDeleteAccountAlertOk() {
     console.log('🚀 ~ OnDeleteAccountAlertOk ~ Start:');
     try {
+      const userId = await AsyncStorage.getItem('user_id');
+      console.log('🚀 ~ OnDeleteAccountAlertOk ~ userId:', userId);
       const token = await AsyncStorage.getItem('token');
+      console.log('🚀 ~ OnDeleteAccountAlertOk ~ token:', token);
       setIsLoading(true);
 
       const response = await axios.delete(
@@ -212,7 +214,10 @@ const ProfileMenu = ({navigation}) => {
         },
       );
 
-      if (response.status === 200) {
+      // const response = await axios.get(
+      //   `${BASE_URL}${endpoints.DELETE_ACCOUNT}/${userId}`,
+      // );
+      if (response?.status === 200) {
         // Update AsyncStorage before dispatching logout
 
         setIsLoading(false);
