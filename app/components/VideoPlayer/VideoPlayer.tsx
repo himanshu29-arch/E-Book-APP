@@ -116,6 +116,13 @@ const VideoPlayerEx = ({uri, handleIsLandscapeCb}) => {
     handleIsLandscapeCb(!isLandscape);
   };
 
+  const handleReadyForPlay = async () => {
+    setTimeout(() => {
+      setIsLoading(true);
+      setPaused(false);
+    }, 0);
+  };
+
   return (
     <View style={{}}>
       {isLoading && (
@@ -141,6 +148,8 @@ const VideoPlayerEx = ({uri, handleIsLandscapeCb}) => {
           // muted={isMuted}
           repeat
           paused={paused}
+          allowsExternalPlayback
+          pictureInPicture
           // controls={true}
           source={{
             uri: uri,
@@ -151,6 +160,11 @@ const VideoPlayerEx = ({uri, handleIsLandscapeCb}) => {
           // rate={playbackSpeed}
           onProgress={onProgress}
           onLoadStart={onLoadStart}
+          playWhenInactive={false}
+          playInBackground={false}
+          // onReadyForDisplay={handleReadyForPlay}
+          // shutterColor="transparent"
+          // hideShutterView
           // selectedVideoTrack={{
           //   type: 'resolution',
           //   value: 480,
@@ -161,7 +175,7 @@ const VideoPlayerEx = ({uri, handleIsLandscapeCb}) => {
           // onBuffer={onVideoBuffer}
           // onReadyForDisplay={onReadyForDisplay}
           // onLoad={onLoad}
-        ></Video>
+        />
 
         {isVideoPlayerActive && (
           <Pressable
@@ -263,6 +277,7 @@ const VideoPlayerEx = ({uri, handleIsLandscapeCb}) => {
           />
         </TouchableOpacity>
       </TouchableOpacity>
+      {!isLoading && <ActivityIndicator />}
     </View>
   );
 };

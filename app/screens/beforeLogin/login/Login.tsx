@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {login_illustration} from '../../../assets/images';
 import {fp, hp, wp} from '../../../helpers/resDimension';
 import {color} from '../../../constants/colors/colors';
@@ -70,6 +70,7 @@ const Login = ({navigation}) => {
 
   useEffect(() => {
     getRememberMeCredential();
+    getToken();
   }, []);
 
   useEffect(() => {
@@ -272,8 +273,9 @@ const Login = ({navigation}) => {
         if (response.data.data.otp == null) {
           dispatch(
             login({
-              userName: response?.data?.name,
-              userEmail: response?.data?.email,
+              userName: response?.data?.data?.name,
+              userEmail: response?.data?.data?.email,
+              profilePic: response?.data?.data?.profile_image,
             }),
           );
           // Alert.alert('Information', `${response.data.message}`, [
@@ -303,6 +305,12 @@ const Login = ({navigation}) => {
     }
   };
 
+  const fcmTokenref = useRef('');
+  async function getToken() {
+    const token = await AsyncStorage.getItem('fcmtoken');
+    console.log('🚀 ~ getToken ~ token:', token);
+    return token;
+  }
   const handleRememberMe = () => {
     setCheckboxState(!checkboxState);
   };

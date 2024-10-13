@@ -31,13 +31,10 @@ const Home = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [bookDetails, setBookDetails] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [userProfile, setUserProfile] = useState([]);
   const [res, setRes] = useState([]);
 
   const [latestCategory, setLatestCategory] = useState({});
-  const handleSearch = () => {
-    // Perform search functionality here
-    // console.log('Searching for:', searchText);
-  };
 
   const handleGetCategories = async () => {
     try {
@@ -147,7 +144,35 @@ const Home = ({navigation}) => {
       setIsLoading(false);
     }
   };
+  const handleGetProfile = async () => {
+    try {
+      setIsLoading(true);
+      const token = await AsyncStorage.getItem('token');
+      const response = await apiClient.get(`${endpoints.GET_PROFILE}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
+      if (response.status === 200) {
+        setUserProfile(response?.data?.data); // Assuming the user profile data is inside the `data` property
+        setIsLoading(false);
+        console.log(
+          '🚀 ~ handleGetProfile ~ response?.data?.data:',
+          response?.data?.data,
+        );
+      }
+    } catch (error) {
+      Snackbar.show({
+        text: response?.data?.message,
+        duration: 2000,
+        backgroundColor: color.RED,
+      });
+      // }
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const handleGetCourses = async () => {
     try {
       setIsLoading(true);

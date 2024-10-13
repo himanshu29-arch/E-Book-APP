@@ -89,7 +89,7 @@ android {
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
-               storePassword 'android'
+            storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }

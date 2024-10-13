@@ -54,7 +54,7 @@ const CommentInput = ({
             : EditProfile
         }
         style={styles.profileImage}
-        resizeMode="contain"
+        resizeMode="cover"
       />
 
       <View style={styles.inputContainer}>
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     height: fp(6),
     width: fp(6),
     marginTop: hp(2),
+    borderRadius: fp(10),
   },
   inputContainer: {
     width: '80%',

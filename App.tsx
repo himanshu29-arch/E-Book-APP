@@ -7,6 +7,7 @@ import Orientation from 'react-native-orientation-locker';
 import RootNavigation from './RootNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Appearance} from 'react-native';
+
 export default function App() {
   useEffect(() => {
     Appearance.setColorScheme('light');

@@ -32,3 +32,25 @@ const year = nextYearDate.getFullYear();
 const date_one_year_from_today = `${day} ${month} ${year}`;
 
 export default date_one_year_from_today;
+
+export function getTimeAgo(timestamp) {
+  const now = new Date();
+  const time = new Date(timestamp);
+  const diffInSeconds = Math.floor((now - time) / 1000);
+
+  // Define time intervals in seconds
+  const seconds = diffInSeconds;
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (seconds < 60) {
+    return `${seconds} ${seconds === 1 ? 'sec' : 'secs'} ago`;
+  } else if (minutes < 60) {
+    return `${minutes} ${minutes === 1 ? 'min' : 'mins'} ago`;
+  } else if (hours < 24) {
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  } else {
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  }
+}

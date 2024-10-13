@@ -1,6 +1,7 @@
 package com.sohojporaa
 
 import android.os.Bundle
+import android.view.WindowManager;
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
@@ -18,6 +19,7 @@ class MainActivity : ReactActivity() {
         // Show splash screen before calling super.onCreate
         // SplashScreen.show(this)
         super.onCreate(null)  // Pass null to prevent restoring the instance state
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
     /**
      * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]

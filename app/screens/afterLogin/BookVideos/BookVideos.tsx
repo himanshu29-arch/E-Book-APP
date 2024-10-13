@@ -41,6 +41,7 @@ import CommentButton from '../../../components/LikeButton/CommentButton';
 import {useNavigationState} from '@react-navigation/native';
 import {EditProfile} from '../../../assets/ProfileMenu';
 import {endpoints} from '../../../constants/colors/endpoints';
+import {getTimeAgo, timeAgo} from '../../../utils/validDate/GetNextYear';
 const BookVideos: React.FC = ({navigation, route}) => {
   const {BookDetails, VideoUri} = route.params;
   const dispatch = useDispatch();
@@ -565,6 +566,7 @@ const BookVideos: React.FC = ({navigation, route}) => {
     setShowAddPhotoModal(true);
   }
   function returnCommentCreatedTime(created_at) {
+    console.log('🚀 ~ returnCommentCreatedTime ~ created_at:', created_at);
     const currentDate = new Date();
     const pastDate = new Date(created_at);
     const differenceInMilliseconds = Math.abs(currentDate - pastDate);
@@ -576,7 +578,8 @@ const BookVideos: React.FC = ({navigation, route}) => {
   }
   function renderCommentReply({item}) {
     console.log('🚀 ~ renderCommentReply ~ item:', item);
-    const timeAgo = returnCommentCreatedTime(item?.created_at);
+    const timeAgo = getTimeAgo(item?.created_at);
+    // const timeAgo = returnCommentCreatedTime(item?.created_at);
     return (
       <View
         style={{
@@ -623,7 +626,9 @@ const BookVideos: React.FC = ({navigation, route}) => {
                   fontSize: fp(1.4),
                   color: '#9E9E9E',
                 }}>
-                {`  ${timeAgo} ${timeAgo == 1 ? 'day' : 'days'} ago`}
+                {'  '}
+                {timeAgo}
+                {/* {`  ${timeAgo} ${timeAgo == 1 ? 'day' : 'days'} ago`} */}
               </CustomText>
             </CustomText>
             {openCommentReplyMenuIndex === item?.id && (
@@ -672,7 +677,9 @@ const BookVideos: React.FC = ({navigation, route}) => {
 
   function renderComments({item}) {
     console.log('🚀 ~ renderComments ~ item:', item);
-    const timeAgo = returnCommentCreatedTime(item?.created_at);
+    const timeAgo = getTimeAgo(item?.created_at);
+    // const timeAgo = returnCommentCreatedTime(item?.created_at);
+    console.log('🚀 ~ renderComments ~ timeAgo:', timeAgo);
     return (
       <View
         style={{
@@ -728,7 +735,9 @@ const BookVideos: React.FC = ({navigation, route}) => {
                     fontSize: fp(1.4),
                     color: '#9E9E9E',
                   }}>
-                  {`  ${timeAgo} ${timeAgo == 1 ? 'day' : 'days'} ago`}
+                  {'  '}
+                  {timeAgo}
+                  {/* {`  ${timeAgo} ${timeAgo == 1 ? 'day' : 'days'} ago`} */}
                   {/* {'    '}5 months ago */}
                 </CustomText>
               </CustomText>

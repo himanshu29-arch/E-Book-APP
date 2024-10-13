@@ -39,8 +39,11 @@ import {apiClient} from '../../../helpers/apiClient';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useFocusEffect} from '@react-navigation/native';
 import {EditProfile} from '../../../assets/ProfileMenu';
+import {useDispatch} from 'react-redux';
+import {setProfilePic} from '../../../redux/authSlice';
 
 const Profile = ({navigation}) => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
@@ -282,6 +285,7 @@ const Profile = ({navigation}) => {
             duration: 2000,
             backgroundColor: color.PRIMARY_BLUE,
           });
+          dispatch(setProfilePic(imageResponse.uri));
           navigation.goBack();
         }
       } catch (error) {

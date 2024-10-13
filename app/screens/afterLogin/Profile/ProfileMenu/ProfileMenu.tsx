@@ -32,10 +32,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../../../redux/authSlice';
 import axios from 'axios';
 import {BASE_URL} from '../../../../constants/storageKeys';
+import {useFocusEffect} from '@react-navigation/native';
 
 const ProfileMenu = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState({});
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleGetProfile();
+    }, []),
+  );
+
   const handleGetProfile = async () => {
     try {
       setIsLoading(true);
