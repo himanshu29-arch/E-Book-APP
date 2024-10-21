@@ -43,6 +43,7 @@ import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {login} from '../../../redux/authSlice';
 import {BASE_URL} from '../../../constants/storageKeys';
+import {uploadFcmToken} from '../../../helpers/notiHelper';
 
 const Login = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +71,8 @@ const Login = ({navigation}) => {
 
   useEffect(() => {
     getRememberMeCredential();
-    getToken();
+    uploadFcmToken();
+    // getToken();
   }, []);
 
   useEffect(() => {
@@ -263,6 +265,7 @@ const Login = ({navigation}) => {
       console.log(response.status, 'response.status');
       if (response.status === 200) {
         console.log(response?.data?.data);
+        uploadFcmApi(response?.data?.token);
         setRes(response.data);
         await AsyncStorage.setItem('loginType', 'mannual');
         await AsyncStorage.setItem('token', response?.data?.token);
@@ -304,13 +307,54 @@ const Login = ({navigation}) => {
       console.log('inside catch', error);
     }
   };
+  // const uploadFcmApi = async token => {
+  //   c
+  //   try {
+  //     const response = await apiClient.post(`${endpoints.UPLOAD_FCM}`, {
+  //       device_token: fcm_token,
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     if (response.status === 200) {
+  //       console.log(response?.data?.data, 'fcm sent');
+  //     }
+  //   } catch (error) {
+  //     console.log('inside catch', error);
+  //   }
+  // };
+
+  async function uploadFcmApi(token) {
+    console.log('🚀 ~ uploadFcmApi ~ token:', token);
+    try {
+      const fcm_token = await AsyncStorage.getItem('fcmtoken');
+      //   console.log('🚀 ~ uploadFcmApi ~ fcm_token:', fcm_token);
+      setIsLoading(true);
+      const response = await apiClient.post(
+        `${endpoints.UPLOAD_FCM}`,
+        {device_token: fcm_token},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        console.log(response?.data, 'fcm token sent');
+      }
+    } catch (error) {
+      console.log('inside catch', error?.message);
+    }
+  }
 
   const fcmTokenref = useRef('');
+
   async function getToken() {
     const token = await AsyncStorage.getItem('fcmtoken');
     console.log('🚀 ~ getToken ~ token:', token);
     return token;
   }
+
   const handleRememberMe = () => {
     setCheckboxState(!checkboxState);
   };

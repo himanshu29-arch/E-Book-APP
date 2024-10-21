@@ -26,4 +26,6 @@ export const endpoints = {
 
   //? PAYMENT
   GET_PAYMENT_METHODS: 'payment-methods',
+
+  UPLOAD_FCM: 'user/token',
 };

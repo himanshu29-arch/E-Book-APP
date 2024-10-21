@@ -145,8 +145,8 @@ export const NotificationListener = () => {
     console.log('🚀 ~ messaging ~ remotemessage: onMessage', remotemessage);
     // hitLocalNoti(remotemessage);
     PushNotification.localNotification({
-      title: remotemessage.notification.title,
-      message: remotemessage.notification.body,
+      title: remotemessage?.notification?.title,
+      message: remotemessage?.notification?.body,
       channelId: 'specialid',
     });
     // navigate("Notifications");

@@ -120,6 +120,8 @@ const Home = ({navigation}) => {
   const handleGetBooks = async () => {
     // console.log('🚀 ~ handleGetBooks ~ handleGetBooks:');
     try {
+      // const fcm_token = await AsyncStorage.getItem('fcmtoken');
+      // console.log('🚀 ~ handleGetBooks ~ fcm_token:', fcm_token);
       setIsLoading(true);
       const response = await apiClient.get(`${endpoints.GET_BOOKS}`);
       // console.log(response.status, 'response.status');
