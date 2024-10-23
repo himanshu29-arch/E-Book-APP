@@ -110,10 +110,10 @@ const Login = ({navigation}) => {
           response?.data?.user?.id.toString(),
         );
 
-        dispatch(
+          dispatch(
           login({
-            userName: response?.data?.name,
-            userEmail: response?.data?.email,
+            userName: response?.data?.user?.name,
+            userEmail: response?.data?.user?.email,
           }),
         );
       }

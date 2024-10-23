@@ -128,4 +128,12 @@ export const useIcon = {
   ContentCopy: () => (
     <MaterialIcons name="content-copy" size={fp(3.2)} color={'#828282'} />
   ),
+   BellIcon: () => (
+    <Ionicons
+      name="notifications-outline"
+      size={fp(3.2)}
+      color={color.WHITE}
+      // style={{marginRight: wp(2)}}
+    />
+  ),
 };

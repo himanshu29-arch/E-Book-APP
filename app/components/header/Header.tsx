@@ -10,16 +10,21 @@ import React, {useContext, useEffect, useMemo} from 'react';
 
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {fp, hp} from '../../helpers/resDimension';
+import {fp, hp, wp} from '../../helpers/resDimension';
 import {useIcon} from '../../assets/icons/useIcon';
 import {typography} from '../../assets/fonts/typography';
 import {useDispatch, useSelector} from 'react-redux';
 import {setProfilePic} from '../../redux/authSlice';
+import {profile} from '../../assets/images';
 
 const Header = props => {
   const navigation = useNavigation();
   const profilePic = useSelector(state => state.auth.profilePic);
   const dispatch = useDispatch();
+
+  const onNotificationPress = () => {
+    navigation.navigate('Notification');
+  };
 
   const changeProfilePic = () => {
     // Example: update with a new image from assets
@@ -37,6 +42,7 @@ const Header = props => {
     rightIcon = true,
     leftIconName = 'arrowleft',
     title = `Getting Started`,
+    notificationIcon = true,
     onRightPress,
     // marginLeft = Platform.OS === 'ios' ? hp(11) : hp(11),
     marginLeft = hp(11),
@@ -60,24 +66,36 @@ const Header = props => {
                 font === 'regular'
                   ? typography.Inter_SemiBold
                   : typography.Inasnibc,
+              marginLeft: notificationIcon ? wp(12) : wp(0),
             },
           ]}>
           {title}
         </Text>
-        {rightIcon ? (
-          <TouchableOpacity onPress={onRightPress}>
-            {/* {profilePic == '' ? ( */}
-            {/* // useIcon.UserIcon() */}
-            {/* // ) : ( */}
-            <Image
-              source={{uri: profilePic}}
-              style={{height: fp(4), width: fp(4), borderRadius: fp(4)}}
-            />
-            {/* // )} */}
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.placeHolderView} />
-        )}
+
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {notificationIcon ? (
+            <Pressable
+              onPress={onNotificationPress}
+              style={{paddingRight: wp(4)}}>
+              {useIcon.BellIcon()}
+            </Pressable>
+          ) : null}
+
+          {rightIcon ? (
+            <TouchableOpacity onPress={onRightPress}>
+              {profilePic == '' || profilePic == null ? (
+                useIcon.UserIcon()
+              ) : (
+                <Image
+                  source={{uri: profilePic}}
+                  style={{height: fp(4), width: fp(4), borderRadius: fp(4)}}
+                />
+              )}
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.placeHolderView} />
+          )}
+        </View>
       </View>
     </View>
   );
