@@ -174,17 +174,18 @@ const Home = ({navigation}) => {
     // console.log('🚀 ~ renderBooks ~ item:', item);
     return (
       <Pressable
-        style={{elevation: 2}}
+        style={{}}
         onPress={() =>
           navigation.navigate('PdfBooks', {category_data: latestCategory})
         }>
         <View
           style={{
             backgroundColor: color.WHITE,
-            height: hp(30.5),
+            height: hp(28),
             width: wp(43),
             borderRadius: fp(1),
             marginRight: wp(3),
+            // elevation: 4,
           }}>
           <Image
             source={{
@@ -197,6 +198,8 @@ const Home = ({navigation}) => {
               borderRadius: fp(1),
               alignSelf: 'center',
             }}
+            borderRadius={fp(1)}
+            resizeMode="contain"
           />
           <View style={{marginLeft: wp(1)}}>
             <CustomText
@@ -221,7 +224,7 @@ const Home = ({navigation}) => {
               Author: Sohoj Pora
             </CustomText>
             {/* )} */}
-            <CustomText
+            {/* <CustomText
               type={'textRegular'}
               style={{
                 fontFamily: typography.Inter_SemiBold,
@@ -230,7 +233,7 @@ const Home = ({navigation}) => {
                 fontSize: fp(1.75),
               }}>
               ৳ {item?.price}
-            </CustomText>
+            </CustomText> */}
           </View>
         </View>
       </Pressable>
@@ -359,7 +362,7 @@ const Home = ({navigation}) => {
       {/* <View style={{marginTop: hp(2)}}>
       <RecommendedList recommendData={recommendImgList} />
     </View> */}
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}>
         <View
           style={{
             backgroundColor: color.DIM_WHITE,
@@ -377,7 +380,7 @@ const Home = ({navigation}) => {
             }}>
             <Text
               style={{
-                fontFamily: typography.Inter_SemiBold,
+                fontFamily: typography.Inter_Bold,
                 color: color.DIM_BLACK,
                 fontSize: fp(1.8),
               }}>
@@ -406,6 +409,7 @@ const Home = ({navigation}) => {
               data={res}
               renderItem={renderBooks}
               horizontal
+              showsHorizontalScrollIndicator={false}
               scrollEnabled={false}
             />
           </View>
@@ -414,7 +418,7 @@ const Home = ({navigation}) => {
               marginHorizontal: wp(5),
               marginTop: hp(2),
             }}>
-            <View
+            {/* <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text
                 style={{
@@ -434,7 +438,7 @@ const Home = ({navigation}) => {
                   See All
                 </Text>
               </Pressable>
-            </View>
+            </View> */}
             <View style={{marginTop: hp(2)}}>
               {/* <Pressable onPress={() => console.log('course Card pressed')}> */}
               {/* <CourseCard courseDetails={courseDetails} /> */}

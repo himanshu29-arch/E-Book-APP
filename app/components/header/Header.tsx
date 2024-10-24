@@ -16,7 +16,7 @@ const Header = props => {
     rightIcon = true,
     leftIconName = 'arrowleft',
     title = `Getting Started`,
-    onRightPress,
+    onRightPress = () => navigation.navigate('ProfileMenu'),
     // marginLeft = Platform.OS === 'ios' ? hp(11) : hp(11),
     marginLeft = hp(11),
     font,

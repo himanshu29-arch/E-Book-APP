@@ -110,13 +110,13 @@ const BottomTab = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Courses"
         component={Courses}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="ProfileMenu"
         component={ProfileMenu}

@@ -196,13 +196,13 @@ const Chat = ({navigation}) => {
       ))} */}
 
       <View style={styles.inputContainer}>
-        <Image
+        {/* <Image
           source={ChatAsset.AddAttachment}
           style={{
             height: fp(7),
             width: fp(7),
           }}
-        />
+        /> */}
         <TextInput
           style={styles.input}
           value={textMsg}
@@ -229,20 +229,24 @@ const styles = StyleSheet.create({
     // alignItems: 'flex-end',
     // borderWidth: 1,
     // borderColor: color.PRIMARY_BLUE,
-    paddingHorizontal: wp(2),
+    // paddingHorizontal: wp(2),
     paddingVertical: hp(0.1),
     justifyContent: 'space-between',
     borderRadius: fp(0.7),
     // marginLeft: wp(12),
     marginBottom: hp(2),
+    marginLeft: wp(5),
     // backgroundColor: '#E8E8E8',
+    alignItems: 'center',
+    alignSelf: 'center',
+    // elevation: 4,
   },
   input: {
     backgroundColor: '#E8E8E8',
-    width: wp(80),
+    width: wp(90),
     borderRadius: fp(10),
-    // height:hp(5),
-    paddingHorizontal: wp(2),
+    // height: hp(5),
+    paddingHorizontal: wp(6),
     color: '#9A9A9A',
   },
   sendContainer: {
